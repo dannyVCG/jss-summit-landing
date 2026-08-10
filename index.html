@@ -85,7 +85,7 @@
     <h1 style="font-family:'Playfair Display',serif;font-size:clamp(32px,5.5vw,58px);font-weight:800;line-height:1.15;margin:0 0 20px;">JSS Industry Partnership<br>Summit 2026</h1>
     <p style="font-size:19px;font-style:italic;color:#f3e6c8;max-width:600px;margin:0 auto 30px;line-height:1.5;">Cordially inviting you to a conclave of industry &amp; academia</p>
     <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 28px; font-size: 18px; margin-bottom: 36px; color: #f3e6c8; font-weight: bold">
-      <span style="display:flex;align-items:center;gap:8px;"><strong style="color:#e8c975;">Date</strong> Friday, 14 August 2026 · 11:00 AM – 5:00 PM</span>
+      <span style="display:flex;align-items:center;gap:8px;"><strong style="color:#e8c975;">Date</strong> Friday, 14 August 2026 · 10:00 AM – 4:00 PM</span>
       <span style="display:flex;align-items:center;gap:8px;"><strong style="color:#e8c975;">Venue</strong> Double Tree by Hilton, Whitefield, Bengaluru</span>
     </div>
     <a href="#register" style="display:inline-block;background:#c9a227;color:#3a1a00;padding:16px 42px;border-radius:3px;text-decoration:none;font-weight:700;font-size:16px;letter-spacing:0.03em;box-shadow:0 8px 24px rgba(0,0,0,0.25);">Register Now</a>
@@ -168,9 +168,9 @@
 
     <!-- KEYNOTE -->
     <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:100px;max-width:500px;margin-left:auto;margin-right:auto;text-align:center;">
-      <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#c9a227;font-weight:700;margin-bottom:12px;">Presides & Keynote</div>
+      <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#c9a227;font-weight:700;margin-bottom:12px;">Presides &amp; Keynote</div>
       <h3 style="font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,32px);color:#7a1f1f;font-weight:700;margin:0 0 10px;">Mr. Rakesh Jaitly</h3>
-      <p style="font-size:16px;color:#6a3030;margin:0;">Head, Business Applications (SMCC), Microsoft India & South Asia</p>
+      <p style="font-size:16px;color:#6a3030;margin:0;">Head, Business Applications (SMCC), Microsoft India &amp; South Asia</p>
     </div>
 
     <!-- GUESTS OF HONOUR ROW -->
@@ -215,17 +215,29 @@
       <h2 style="font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,38px);color:#7a1f1f;margin:0;font-weight:700;">Program Details</h2>
     </div>
     <div class="jss-timeline jss-timeline-compact" style="max-width:760px;margin:0 auto;">
-      <sc-for list="{{ programTimeline }}" as="item" hint-placeholder-count="11">
-        <div class="jss-timeline-row" ref="{{ item.ref }}" style="{{ item.cardStyle }}">
-          <div class="jss-timeline-dot-compact"></div>
-          <div class="jss-timeline-time">{{ item.time }}</div>
-          <div>
-            <div style="font-size:16px;font-weight:700;color:#7a1f1f;margin-bottom:3px;">{{ item.title }}</div>
-            <sc-if value="{{ item.desc }}">
+      <sc-for list="{{ programTimeline }}" as="item" hint-placeholder-count="12">
+        <sc-if value="{{ item.isConcurrent }}" hint-placeholder-val="{{ false }}">
+          <div class="jss-timeline-row" ref="{{ item.ref }}" style="width: 682px; height: 100px">
+            <div class="jss-timeline-dot-compact" style="background:#c9a227;box-shadow:0 0 0 3px #faf3e0,0 0 0 5px #c9a227;flex-shrink:0;"></div>
+            
+          <div style="flex:1;min-width:0;">
+              <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:700;color:#c9a227;margin-bottom:6px;">Dignitaries Track</div>
+              <div style="font-size:16px;font-weight:700;color:#7a1f1f;margin-bottom:3px;">{{ item.title }}</div>
               <p style="font-size:13.5px;line-height:1.5;color:#6a3030;margin:0;">{{ item.desc }}</p>
-            </sc-if>
+            </div></div>
+        </sc-if>
+        <sc-if value="{{ !item.isConcurrent }}" hint-placeholder-val="{{ true }}">
+          <div class="jss-timeline-row" ref="{{ item.ref }}" style="{{ item.cardStyle }}">
+            <div class="jss-timeline-dot-compact"></div>
+            <div class="jss-timeline-time">{{ item.time }}</div>
+            <div>
+              <div style="font-size:16px;font-weight:700;color:#7a1f1f;margin-bottom:3px;">{{ item.title }}</div>
+              <sc-if value="{{ item.desc }}">
+                <p style="font-size:13.5px;line-height:1.5;color:#6a3030;margin:0;">{{ item.desc }}</p>
+              </sc-if>
+            </div>
           </div>
-        </div>
+        </sc-if>
       </sc-for>
     </div>
 
@@ -520,17 +532,18 @@ class Component extends DCLogic {
     const presenceList = [];
 
     const timelineRaw = [
-      { id: 't1', time: '11:00 – 11:20 AM', title: 'Registration & Networking', desc: 'Delegate registration, networking, and welcome refreshments.' },
-      { id: 't2', time: '11:20 – 11:35 AM', title: 'Inaugural Ceremony', desc: 'Invocation, Lighting of the Lamp, Welcome Address, Introduction to the Summit.' },
-      { id: 't3', time: '11:35 – 11:50 AM', title: 'Presidential Address', desc: 'Address by JSS Leadership outlining the vision for industry-academia collaboration.' },
-      { id: 't4', time: '11:50 AM – 12:20 PM', title: 'Keynote Address', desc: 'Industry keynote on future workforce trends, technology transformation, and talent development.' },
-      { id: 't5', time: '12:20 – 1:10 PM', title: 'Panel Discussion I: Building Industry-Ready Engineering Talent', desc: 'Discussion among Technical Hiring Managers, OEM representatives, and academic leaders on skill gaps, curriculum alignment, internships, and employability.' },
-      { id: 't6', time: '1:10 – 2:00 PM', title: 'Networking Lunch', desc: 'Lunch and informal networking among delegates.' },
-      { id: 't7', time: '2:00 – 2:50 PM', title: 'Panel Discussion II: Strengthening Industry–Academia Partnerships for Innovation & Placements', desc: 'Discussion on collaborative research, Centers of Excellence, faculty development, live projects, internships, and long-term strategic partnerships.' },
-      { id: 't8', time: '2:50 – 3:10 PM', title: 'High Tea & Networking', desc: 'Refreshments and networking.' },
-      { id: 't9', time: '3:10 – 4:30 PM', title: 'Round Table Discussion', desc: 'Breakout discussions between JSS Institution Leaders and industry representatives to identify collaboration opportunities, placement strategies, curriculum enhancements, and institutional partnerships.' },
-      { id: 't10', time: '4:30 – 4:50 PM', title: 'Presentation of Key Recommendations', desc: 'Rapporteurs from each table present discussion outcomes and actionable recommendations.' },
-      { id: 't11', time: '4:50 – 5:00 PM', title: 'Vote of Thanks & Closing Remarks', desc: 'Closing remarks, acknowledgement of participants, and announcement of next steps.' },
+      { id: 't1', time: '10:00 – 10:50 AM', title: 'Registration & Networking', desc: 'Delegate registration, networking, and welcome refreshments.' },
+      { id: 't2', time: '10:50 – 11:00 AM', title: 'Welcome', desc: 'Dr. Manohar and Inchara welcome the Summit.' },
+      { id: 't3', time: '11:00 – 11:35 AM', title: 'Inaugural Ceremony', desc: 'By Chief Guest, JSS leaders, Lighting of the Lamp, Welcome Address.' },
+      { id: 't4', time: '11:35 – 11:50 AM', title: 'Keynote Address', desc: 'By Rakesh Jaitly, industry keynote on future workforce trends, technology transformation, and talent development.' },
+      { id: 't5', time: '11:50 AM – 12:20 PM', title: 'MoU Signing & EV COE Website Release', desc: 'MoU signing by KDEM and JSS; EV COE website release by dignitaries.' },
+      { id: 't6', time: '12:20 – 1:10 PM', title: 'Panel Discussion I: Bridging the Industry–Academia Gap', desc: 'Building Job-Ready Engineers. Moderated by Dr. Basava Kumar, JD, JSS MVP.' },
+      { id: 't6b', time: '12:20 PM (concurrent)', title: 'Dais Transition', desc: 'KDEM x JSS Boardroom Discussion with light snacks served, continuing through lunch.', isConcurrent: true },
+      { id: 't7', time: '1:10 – 2:10 PM', title: 'Networking Lunch', desc: 'Lunch and informal networking among delegates.' },
+      { id: 't8', time: '2:10 – 2:50 PM', title: 'Panel Discussion II: The Future of Engineering Talent', desc: 'Skills, Hiring and Careers in the AI Era. Moderated by Shivshankar, CEO STEP, Mysore.' },
+      { id: 't9', time: '2:50 – 3:30 PM', title: 'Round Table Networking', desc: 'Breakout discussions between JSS Institution Leaders and industry representatives. Moderated by Dr. Pradeep M P, HOD MBA, JSSATEB.' },
+      { id: 't10', time: '3:30 – 3:45 PM', title: 'Vote of Thanks & Closing Remarks', desc: 'By Event Director Dr. Bhimasen Soragaon and Event Champions Dr. Manohar and Inchara.' },
+      { id: 't11', time: '3:45 – 4:00 PM', title: 'High Tea & Networking', desc: 'Refreshments and networking; meet & greet, leadership interviews with TV channel and social media influencers.' },
     ];
     const programTimeline = timelineRaw.map((item, i) => {
       const revealed = !!this.state.timelineRevealed[item.id];
@@ -541,6 +554,19 @@ class Component extends DCLogic {
           opacity: revealed ? 1 : 0,
           transform: revealed ? 'translateY(0)' : 'translateY(28px)',
           transition: `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${i * 0.1}s, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${i * 0.1}s`,
+        },
+        concurrentStyle: {
+          opacity: revealed ? 1 : 0,
+          transform: revealed ? 'translateY(0)' : 'translateY(28px)',
+          transition: `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${i * 0.1}s, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${i * 0.1}s`,
+          paddingLeft: '32px',
+          borderLeft: '2px solid #c9a22744',
+          marginLeft: '20px',
+          marginTop: '28px',
+          marginBottom: '28px',
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: '16px',
         },
       };
     });
